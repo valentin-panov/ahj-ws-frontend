@@ -113,8 +113,8 @@ body {
   overflow: hidden;
 
   min-width: 60vw;
-  min-height: 60vh;
-  max-height: 60vh;
+  min-height: 90vh;
+  max-height: 90vh;
 
   margin: 10px 5px;
   padding: 10px;
@@ -174,6 +174,7 @@ body {
   display: flex;
   width: fit-content;
   align-self: flex-start;
+  text-align: left;
 
   margin-bottom: 10px;
 
@@ -188,6 +189,7 @@ body {
 }
 .myself {
   align-self: flex-end;
+  text-align: right;
   background-color: rgb(229, 255, 219);
 }
 

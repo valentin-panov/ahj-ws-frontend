@@ -1,6 +1,7 @@
 import { unit, unitForm, container, unitDelete, userPic } from './template';
 import UnitAPI from './unitApi';
 import FORM_ERRORS from '../data/formErrors';
+import formatDate from './formatDate';
 
 export default class Widget {
   constructor() {}
@@ -69,11 +70,8 @@ export default class Widget {
       if (response.state === 'ok') {
         this.loginForm.classList.add('visually-hidden');
         this.sendMsgForm.classList.remove('visually-hidden');
-        console.log(response);
-        this.id = response.id;
+        console.log('response', response);
         this.user = response.user;
-        this.users = response.users;
-        this.renderUsers();
         this.chatInit();
       }
     } catch (err) {
@@ -81,8 +79,8 @@ export default class Widget {
     }
   }
   renderUsers() {
+    this.usersContainer.innerHTML = '';
     for (let user of this.users) {
-      console.log(user);
       this.usersContainer.append(userPic(user));
     }
   }
@@ -93,7 +91,8 @@ export default class Widget {
     // Подключаем WebSocket
     this.webSocket = await new WebSocket('ws://localhost:3000');
 
-    // await this.webSocket.send(JSON.stringify({ type: 'userList', user: this.user }));
+    // ! Крашится, не могу понять, почему
+    // await this.webSocket.send(JSON.stringify({ type: 'new', message: '', userId: this.user.id }));
 
     // Получаем сообщение от сервера
     this.webSocket.addEventListener(
@@ -130,19 +129,30 @@ export default class Widget {
 
   async sendMsg() {
     const message = this.msgInput.value;
-    await this.webSocket.send(JSON.stringify({ type: 'send', message: message, user: this.user }));
+    await this.webSocket.send(
+      JSON.stringify({
+        type: 'send',
+        message: message,
+        userId: this.user.id,
+        time: `${formatDate(new Date())}`,
+      })
+    );
     this.msgInput.value = '';
   }
 
   renderMsg(event) {
     const data = JSON.parse(event.data);
-    console.log(data);
+    console.log('renderMsg:', data);
     if (data.type === 'send') {
-      this.chat.append(unit(data));
+      const newMsg = unit(data);
+      if (data.name === this.user.name) {
+        newMsg.classList.add('myself');
+      }
+      this.chat.append(newMsg);
       this.chat.lastElementChild.scrollIntoView();
     }
     if (data.type === 'userList') {
-      this.users = data.users;
+      this.users = JSON.parse(data.users);
       this.renderUsers();
     }
   }
@@ -152,7 +162,7 @@ export default class Widget {
       this.websocket.send(
         JSON.stringify({
           type: 'logout',
-          user: this.user,
+          userId: this.id,
         })
       )
     );

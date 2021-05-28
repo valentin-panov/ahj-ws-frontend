@@ -42,7 +42,7 @@ function container() {
 function unit(data) {
   const newUnit = document.createElement('li');
   newUnit.classList.add('unit');
-  newUnit.innerHTML = `${data.user.name}: ${data.message}`;
+  newUnit.innerHTML = `${data.name}<br>${data.time}<br>${data.message}`;
   return newUnit;
 }
 
