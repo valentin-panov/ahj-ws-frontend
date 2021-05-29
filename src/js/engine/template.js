@@ -20,6 +20,7 @@ function container() {
       type="text"
       placeholder="Введите псевдоним.."
       name="name"
+      required
     />
     <button id="loginSend" type="button" class="btn btn-submit">Войти</button>
   </form>
@@ -31,6 +32,7 @@ function container() {
       type="text"
       placeholder="Введите сообщение.."
       name="msg"
+      required
     />
     <button id="msgSend" type="button" class="btn btn-submit">Отправить</button>
   </form>
@@ -50,54 +52,8 @@ function userPic(data) {
   const newUnit = document.createElement('li');
   newUnit.classList.add('unit');
   newUnit.dataset.userId = `${data.id}`;
-  newUnit.innerHTML = `${data.name}`;
+  newUnit.innerHTML = `<img class="userpic">&nbsp<span class="username">${data.name}</span>`;
   return newUnit;
 }
 
-function unitForm(data) {
-  const title = data.id ? 'Изменить тикет' : 'Добавить тикет';
-  const formElement = document.createElement('div');
-  formElement.classList.add('unitForm');
-  formElement.innerHTML = `
-    <form name="unitForm" data-id="${data.id}" novalidate class="form">
-      
-      <h2 class="unitForm__header">${title}</h2>
-
-      <input class="form__input" type="text" name="name" value="${
-        data.name
-      }" required placeholder="Введите имя тикета"></textarea>
-      
-      <textarea class="form__input" type="text" name="description" required placeholder="Введите описание тикета">${data.description.replace(
-        /<br\s*\/?>/gm,
-        '\n'
-      )}</textarea>
-      
-      <div class="form__input-button-holder">
-        <button type="button" class="btn btn-cancel">Отмена</button>
-        <button type="submit" class="btn btn-submit">Ok</button>
-      </div>
-    </form>
-  `;
-  return formElement;
-}
-
-function unitDelete(data) {
-  const formElement = document.createElement('div');
-  formElement.classList.add('unitForm');
-  formElement.innerHTML = `
-    <form name="unitDeleteForm" data-id="${data}" novalidate class="form">
-      
-      <h2 class="unitForm__header">Удалить тикет</h2>
-
-      <span class="unit-delete-text">Вы уверены, что хотите удалить тикет? Это действие необратимо.</span>
-      
-      <div class="form__input-button-holder">
-        <button type="button" class="btn btn-cancel">Отмена</button>
-        <button type="submit" class="btn btn-submit">Ok</button>
-      </div>
-    </form>
-  `;
-  return formElement;
-}
-
-export { container, unit, userPic, unitForm, unitDelete };
+export { container, unit, userPic };

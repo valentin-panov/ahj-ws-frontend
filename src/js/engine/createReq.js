@@ -1,6 +1,6 @@
 export default async function createReq(options) {
+  const baseURL = `http://localhost:3000`;
   // const baseURL = 'https://vp-ahj-helpdesk.herokuapp.com';
-  const baseURL = 'http://localhost:3000';
   const requestURL = `${baseURL}${options.query}`;
   const request = await fetch(requestURL, {
     method: options.method,

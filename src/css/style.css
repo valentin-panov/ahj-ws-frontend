@@ -132,18 +132,12 @@ body {
   overflow: hidden;
 }
 
-/* .chat-container > * {
-  flex: 0 0 auto;
-  overflow: scroll;
-} */
-
 .list-wrapper {
   flex: 1;
   display: flex;
   overflow: auto;
   flex-basis: 50%;
-
-  /* border: 1px solid black; */
+  min-height: 60vh;
 }
 
 .list-container {
@@ -175,6 +169,8 @@ body {
   width: fit-content;
   align-self: flex-start;
   text-align: left;
+  font-size: medium;
+  line-height: 1.5;
 
   margin-bottom: 10px;
 
@@ -192,10 +188,19 @@ body {
   text-align: right;
   background-color: rgb(229, 255, 219);
 }
+.userpic {
+  background: url('../img/unnamed.png') 0 0 / contain no-repeat;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.error {
+  background-color: darkred;
+  color: #ffffff;
+}
 
 .unitForm {
-  /* width: max-content; */
-
   position: absolute;
   z-index: 2;
   margin: 10px 0px;
