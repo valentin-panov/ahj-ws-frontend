@@ -3,7 +3,9 @@ import { unit, container, userPic } from './template';
 export default class Widget {
   constructor() {
     this.user = undefined;
-    this.webSocket = new WebSocket(`ws://localhost:3000`);
+    // this.webSocket = new WebSocket(`ws://localhost:3000`);
+    // this.server = `https://vp-ahj-chat.herokuapp.com/`;
+    this.webSocket = new WebSocket(`wss://vp-ahj-chat.herokuapp.com/`);
   }
   async init() {
     this.render();
@@ -72,7 +74,7 @@ export default class Widget {
 
   async signup() {
     const login = this.loginInput.value;
-    this.webSocket.send(
+    await this.webSocket.send(
       JSON.stringify({
         type: 'login',
         login,
@@ -147,9 +149,9 @@ export default class Widget {
     );
   }
 
-  sendMsg() {
+  async sendMsg() {
     const message = this.msgInput.value;
-    this.webSocket.send(
+    await this.webSocket.send(
       JSON.stringify({
         type: 'msg',
         message: message,
